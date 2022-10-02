@@ -1,0 +1,23 @@
+name: Generate API reference
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build docs
+        uses: actions/setup-node@v3
+        run: |
+          yarn
+          yarn build:docs
+
+      - name: Publish docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
