@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2022-09-02
+## [1.0.0] - 2022-09-03
 ### Added
 - Support for all methods of DocumentClient
 - Helpers for transactGet and transactWrite
