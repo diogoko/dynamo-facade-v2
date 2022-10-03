@@ -11,11 +11,16 @@
     "name": "Diogo Kollross",
     "email": "diogoko@gmail.com"
   },
+  "homepage": "https://diogoko.github.io/dynamo-facade-v2",
   "license": "MIT",
   "private": false,
   "repository": {
     "url": "https://github.com/diogoko/dynamo-facade-v2.git",
     "type": "git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "scripts": {
     "start": "rollup -c rollup.config.js -w",
