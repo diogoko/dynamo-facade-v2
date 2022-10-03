@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "ESNext",
-    "lib": [
-      "ESNext",
-    ],
+    "lib": ["ESNext"],
     "declaration": true,
     "declarationDir": "dist",
     "outDir": "dist",
@@ -15,16 +13,14 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": false,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules",
     "dist",
     "src/__tests__",
     "**/*.test.tsx",
-    "**/*.spec.tsx",
+    "**/*.spec.tsx"
   ],
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
