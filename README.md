@@ -6,11 +6,7 @@ This project is focused on version 2 of `aws-sdk`.
 
 ## Usage
 
-You can see the complete reference to the API at https://diogoko.github.io/dynamo-facade-v2:
-
-- [DynamoFacade](https://diogoko.github.io/dynamo-facade-v2/classes/DynamoFacade.html)
-- [batchItem](https://diogoko.github.io/dynamo-facade-v2/variables/batchItem.html)
-- [transactItem](https://diogoko.github.io/dynamo-facade-v2/variables/transactItem.html)
+You can see the complete reference to the API at https://diogoko.github.io/dynamo-facade-v2.
 
 ### Install
 

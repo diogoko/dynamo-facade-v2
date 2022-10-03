@@ -7,132 +7,111 @@ import CommandBuilder, {
   FacadeUpdateItemInput,
 } from './command';
 
-export class DynamoFacade {
-  defaults: DocumentClient.DocumentClientOptions &
-    ServiceConfigurationOptions &
-    DynamoDB.ClientApiVersions = {};
+const defaults: DocumentClient.DocumentClientOptions &
+  ServiceConfigurationOptions &
+  DynamoDB.ClientApiVersions = {};
 
-  private _client?: DocumentClient;
-
-  get client() {
-    if (!this._client) {
-      this._client = new DocumentClient(this.defaults);
-    }
-    return this._client;
+let _client: DocumentClient;
+function client() {
+  if (!_client) {
+    _client = new DocumentClient(defaults);
   }
-
-  private builder: CommandBuilder;
-
-  constructor(client?: DocumentClient) {
-    this._client = client;
-    this.builder = new CommandBuilder();
-  }
-
-  batchGet(
-    requestItems: DocumentClient.BatchGetRequestMap[],
-    options?: Partial<DocumentClient.BatchGetItemInput>
-  ) {
-    return this.client.batchGet(
-      this.builder.buildBatchGet(requestItems, options)
-    );
-  }
-
-  batchWrite(
-    requestItems: DocumentClient.BatchWriteItemRequestMap[],
-    options?: Partial<DocumentClient.BatchWriteItemInput>
-  ) {
-    return this.client.batchWrite(
-      this.builder.buildBatchWrite(requestItems, options)
-    );
-  }
-
-  get(
-    tableName: string,
-    key: DocumentClient.Key,
-    options?: Partial<DocumentClient.GetItemInput>
-  ) {
-    return this.client
-      .get(this.builder.buildGet(tableName, key, options))
-      .promise();
-  }
-
-  scan(tableName: string, filter: any, options?: DocumentClient.ScanInput) {
-    return this.client
-      .scan(this.builder.buildScan(tableName, filter, options))
-      .promise();
-  }
-
-  query(
-    tableName: string,
-    keyCondition: any,
-    options?: Partial<FacadeQueryInput>
-  ) {
-    return this.client
-      .query(this.builder.buildQuery(tableName, keyCondition, options))
-      .promise();
-  }
-
-  put(
-    tableName: string,
-    item: DocumentClient.PutItemInputAttributeMap,
-    options?: Partial<FacadePutItemInput>
-  ) {
-    return this.client
-      .put(this.builder.buildPut(tableName, item, options))
-      .promise();
-  }
-
-  update(
-    tableName: string,
-    key: DocumentClient.Key,
-    updatedValues: any,
-    options?: Partial<FacadeUpdateItemInput>
-  ) {
-    return this.client
-      .update(this.builder.buildUpdate(tableName, key, updatedValues, options))
-      .promise();
-  }
-
-  delete(
-    tableName: string,
-    key: DocumentClient.Key,
-    options?: Partial<FacadeUpdateItemInput>
-  ) {
-    return this.client
-      .delete(this.builder.buildDelete(tableName, key, options))
-      .promise();
-  }
-
-  transactGet(
-    transactItems: DocumentClient.TransactGetItemList,
-    options?: Partial<DocumentClient.TransactGetItemsInput>
-  ) {
-    return this.client.transactGet(
-      this.builder.buildTransactGet(transactItems, options)
-    );
-  }
-
-  transactWrite(
-    transactItems: DocumentClient.TransactWriteItemList,
-    options?: Partial<DocumentClient.TransactWriteItemsInput>
-  ) {
-    return this.client
-      .transactWrite(this.builder.buildTransactWrite(transactItems, options))
-      .promise();
-  }
-
-  set(
-    list: number[] | string[] | DocumentClient.binaryType[],
-    options?: Partial<DocumentClient.CreateSetOptions>
-  ) {
-    return this.client.createSet(list, options);
-  }
+  return _client;
 }
 
-/**
- * @ignore
- */
-export default new DynamoFacade();
+const builder = new CommandBuilder();
+
+export function batchGet(
+  requestItems: DocumentClient.BatchGetRequestMap[],
+  options?: Partial<DocumentClient.BatchGetItemInput>
+) {
+  return client().batchGet(builder.buildBatchGet(requestItems, options));
+}
+
+export function batchWrite(
+  requestItems: DocumentClient.BatchWriteItemRequestMap[],
+  options?: Partial<DocumentClient.BatchWriteItemInput>
+) {
+  return client().batchWrite(builder.buildBatchWrite(requestItems, options));
+}
+
+export function get(
+  tableName: string,
+  key: DocumentClient.Key,
+  options?: Partial<DocumentClient.GetItemInput>
+) {
+  return client().get(builder.buildGet(tableName, key, options)).promise();
+}
+
+export function scan(
+  tableName: string,
+  filter: any,
+  options?: DocumentClient.ScanInput
+) {
+  return client().scan(builder.buildScan(tableName, filter, options)).promise();
+}
+
+export function query(
+  tableName: string,
+  keyCondition: any,
+  options?: Partial<FacadeQueryInput>
+) {
+  return client()
+    .query(builder.buildQuery(tableName, keyCondition, options))
+    .promise();
+}
+
+export function put(
+  tableName: string,
+  item: DocumentClient.PutItemInputAttributeMap,
+  options?: Partial<FacadePutItemInput>
+) {
+  return client().put(builder.buildPut(tableName, item, options)).promise();
+}
+
+export function update(
+  tableName: string,
+  key: DocumentClient.Key,
+  updatedValues: any,
+  options?: Partial<FacadeUpdateItemInput>
+) {
+  return client()
+    .update(builder.buildUpdate(tableName, key, updatedValues, options))
+    .promise();
+}
+
+export function deleteItem(
+  tableName: string,
+  key: DocumentClient.Key,
+  options?: Partial<FacadeUpdateItemInput>
+) {
+  return client()
+    .delete(builder.buildDelete(tableName, key, options))
+    .promise();
+}
+
+export function transactGet(
+  transactItems: DocumentClient.TransactGetItemList,
+  options?: Partial<DocumentClient.TransactGetItemsInput>
+) {
+  return client().transactGet(builder.buildTransactGet(transactItems, options));
+}
+
+export function transactWrite(
+  transactItems: DocumentClient.TransactWriteItemList,
+  options?: Partial<DocumentClient.TransactWriteItemsInput>
+) {
+  return client()
+    .transactWrite(builder.buildTransactWrite(transactItems, options))
+    .promise();
+}
+
+export function set(
+  list: number[] | string[] | DocumentClient.binaryType[],
+  options?: Partial<DocumentClient.CreateSetOptions>
+) {
+  return client().createSet(list, options);
+}
 
 export {
   attribute_exists,
@@ -150,6 +129,6 @@ export {
   size,
 } from './helpers';
 
-export * from './transact-item';
+export { transactItem } from './transact-item';
 
-export * from './batch-item';
+export { batchItem } from './batch-item';
