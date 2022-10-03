@@ -1,12 +1,16 @@
 # dynamo-facade-v2
 
-dynamo-facade-v2 is a library that helps calling `DocumentClient` from `aws-sdk` - specially functions that have expression parameters (like `FilterExpression` and `UpdateExpression`).
+dynamo-facade-v2 is a library that helps calling `DocumentClient` of `aws-sdk` - specially functions that have expression parameters (like `FilterExpression` and `UpdateExpression`).
 
 This project is focused on version 2 of `aws-sdk`.
 
 ## Usage
 
-You can see the complete reference to the API at https://diogoko.github.io/dynamo-facade-v2.
+You can see the complete reference to the API at https://diogoko.github.io/dynamo-facade-v2:
+
+- [DynamoFacade](https://diogoko.github.io/dynamo-facade-v2/classes/DynamoFacade.html)
+- [batchItem](https://diogoko.github.io/dynamo-facade-v2/variables/batchItem.html)
+- [transactItem](https://diogoko.github.io/dynamo-facade-v2/variables/transactItem.html)
 
 ### Install
 
@@ -17,7 +21,7 @@ npm install dynamo-facade-v2
 ### Examples
 
 ```js
-import df, { between, gt, inList, transactWrite as tr } from `dynamo-facade-v2`;
+import df, { between, gt, inList, transactWrite as tr } from 'dynamo-facade-v2';
 
 // The returned value is the same one returned by DocumentClient.*.promise()
 const response = await df.get('movies', { actor: 'Tom Hanks' });

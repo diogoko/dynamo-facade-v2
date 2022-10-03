@@ -1,5 +1,14 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
+/**
+ * Helper functions to create batch items for `batchGet` and `batchWrite`.
+ *
+ * The suggested import is:
+ *
+ * ```js
+ * import { batchItem as bi } from 'dynamo-facade-v2';
+ * ```
+ */
 export const batchItem = {
   get(
     tableName: string,

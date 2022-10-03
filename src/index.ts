@@ -129,6 +129,9 @@ export class DynamoFacade {
   }
 }
 
+/**
+ * @ignore
+ */
 export default new DynamoFacade();
 
 export {
@@ -148,3 +151,5 @@ export {
 } from './helpers';
 
 export * from './transact-item';
+
+export * from './batch-item';

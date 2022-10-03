@@ -16,6 +16,15 @@ export interface FacadeDelete extends DocumentClient.Delete {
   condition?: any;
 }
 
+/**
+ * Helper functions to create transaction items for `transactGet` and `transactWrite`.
+ *
+ * The suggested import is:
+ *
+ * ```js
+ * import { transactItem as tr } from 'dynamo-facade-v2';
+ * ```
+ */
 export const transactItem = {
   get(
     tableName: string,
