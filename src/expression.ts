@@ -63,7 +63,7 @@ export class FunctionComparison extends Comparison {
     return {
       expression,
       names: { [name]: name },
-      values: this.value === undefined ? {} : { name: this.value },
+      values: this.value === undefined ? {} : { [name]: this.value },
     };
   }
 }

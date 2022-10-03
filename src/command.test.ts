@@ -1,5 +1,10 @@
 import CommandBuilder from './command';
-import { attribute_exists, attribute_not_exists, gt } from './helpers';
+import {
+  attribute_exists,
+  attribute_not_exists,
+  begins_with,
+  gt,
+} from './helpers';
 import transactItem from './transact-item';
 import batchItem from './batch-item';
 
@@ -88,6 +93,26 @@ describe('buildQuery', () => {
       ExpressionAttributeValues: {
         ':pk': '12345',
         ':age': 20,
+      },
+    });
+  });
+
+  it('creates command with complex key condition', () => {
+    const command = builder.buildQuery('test', {
+      pk: '12345',
+      sk: begins_with('#CLIENTINFO'),
+    });
+
+    expect(command).toEqual({
+      TableName: 'test',
+      KeyConditionExpression: '#pk = :pk and begins_with(#sk, :sk)',
+      ExpressionAttributeNames: {
+        '#pk': 'pk',
+        '#sk': 'sk',
+      },
+      ExpressionAttributeValues: {
+        ':pk': '12345',
+        ':sk': '#CLIENTINFO',
       },
     });
   });

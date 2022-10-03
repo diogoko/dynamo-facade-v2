@@ -39,16 +39,16 @@ describe('buildExpression', () => {
   });
 
   it('accepts begins_with comparison', () => {
-    const expr = buildExpression({ name: begins_with('Test'), age: 30 });
+    const expr = buildExpression({ title: begins_with('Test'), age: 30 });
 
     expect(expr).toEqual({
-      expression: 'begins_with(#name, :name) and #age = :age',
+      expression: 'begins_with(#title, :title) and #age = :age',
       values: {
-        ':name': 'Test',
+        ':title': 'Test',
         ':age': 30,
       },
       names: {
-        '#name': 'name',
+        '#title': 'title',
         '#age': 'age',
       },
     });
