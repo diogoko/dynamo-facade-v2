@@ -21,6 +21,8 @@ npm install dynamo-facade-v2
 
 ### Examples
 
+In the following examples, the `movies` table has a compound primary key (`actor` is the hash key, `movie` is the range key).
+
 ```js
 import df, { between, gt, inList, transactWrite as tr } from 'dynamo-facade-v2';
 
