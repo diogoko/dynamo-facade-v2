@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2022-09-03
+## [1.0.1] - 2022-10-05
+
+### Fixed
+- Signature of batchGet and batchWrite to return Promise
+
+## [1.0.0] - 2022-10-03
 ### Added
 - Support for all methods of DocumentClient
 - Helpers for transactGet and transactWrite

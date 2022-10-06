@@ -25,14 +25,18 @@ export function batchGet(
   requestItems: DocumentClient.BatchGetRequestMap[],
   options?: Partial<DocumentClient.BatchGetItemInput>
 ) {
-  return client().batchGet(builder.buildBatchGet(requestItems, options));
+  return client()
+    .batchGet(builder.buildBatchGet(requestItems, options))
+    .promise();
 }
 
 export function batchWrite(
   requestItems: DocumentClient.BatchWriteItemRequestMap[],
   options?: Partial<DocumentClient.BatchWriteItemInput>
 ) {
-  return client().batchWrite(builder.buildBatchWrite(requestItems, options));
+  return client()
+    .batchWrite(builder.buildBatchWrite(requestItems, options))
+    .promise();
 }
 
 export function get(
