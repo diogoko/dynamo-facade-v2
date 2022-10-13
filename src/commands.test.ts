@@ -1,4 +1,4 @@
-import * as commands from './command';
+import * as commands from './commands';
 import {
   attribute_exists,
   attribute_not_exists,

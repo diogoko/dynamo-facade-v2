@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import * as commands from './command';
+import * as commands from './commands';
 
 export interface FacadePut extends DocumentClient.Put {
   condition?: any;

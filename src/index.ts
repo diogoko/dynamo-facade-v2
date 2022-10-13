@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-import * as commands from './command';
+import * as commands from './commands';
 
 const defaults: DocumentClient.DocumentClientOptions &
   ServiceConfigurationOptions &
