@@ -1,4 +1,4 @@
-import CommandBuilder from './command';
+import * as commands from './command';
 import {
   attribute_exists,
   attribute_not_exists,
@@ -8,15 +8,9 @@ import {
 import transactItem from './transact-item';
 import batchItem from './batch-item';
 
-let builder: CommandBuilder;
-
-beforeEach(() => {
-  builder = new CommandBuilder();
-});
-
 describe('buildGet', () => {
   it('creates command without options', () => {
-    const command = builder.buildGet('test', { pk: '12345' });
+    const command = commands.buildGet('test', { pk: '12345' });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -25,7 +19,7 @@ describe('buildGet', () => {
   });
 
   it('creates command without options', () => {
-    const command = builder.buildGet(
+    const command = commands.buildGet(
       'test',
       { pk: '12345' },
       { ReturnConsumedCapacity: 'TOTAL' }
@@ -41,7 +35,7 @@ describe('buildGet', () => {
 
 describe('buildQuery', () => {
   it('creates command without options', () => {
-    const command = builder.buildQuery('test', { pk: '12345' });
+    const command = commands.buildQuery('test', { pk: '12345' });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -56,7 +50,7 @@ describe('buildQuery', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildQuery(
+    const command = commands.buildQuery(
       'test',
       { pk: '12345' },
       { ExclusiveStartKey: { pk: '12000' } }
@@ -76,7 +70,7 @@ describe('buildQuery', () => {
   });
 
   it('creates command with filter', () => {
-    const command = builder.buildQuery(
+    const command = commands.buildQuery(
       'test',
       { pk: '12345' },
       { filter: { age: gt(20) } }
@@ -98,7 +92,7 @@ describe('buildQuery', () => {
   });
 
   it('creates command with complex key condition', () => {
-    const command = builder.buildQuery('test', {
+    const command = commands.buildQuery('test', {
       pk: '12345',
       sk: begins_with('#CLIENTINFO'),
     });
@@ -120,7 +114,7 @@ describe('buildQuery', () => {
 
 describe('buildScan', () => {
   it('creates command without options', () => {
-    const command = builder.buildScan('test', { name: 'Joe' });
+    const command = commands.buildScan('test', { name: 'Joe' });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -135,7 +129,7 @@ describe('buildScan', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildScan(
+    const command = commands.buildScan(
       'test',
       { name: 'Joe' },
       { ExclusiveStartKey: { pk: '12000' } }
@@ -155,7 +149,7 @@ describe('buildScan', () => {
   });
 
   it('creates command with filter without values', () => {
-    const command = builder.buildScan('test', { name: attribute_exists() });
+    const command = commands.buildScan('test', { name: attribute_exists() });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -167,7 +161,7 @@ describe('buildScan', () => {
   });
 
   it('creates command without filter', () => {
-    const command = builder.buildScan('test', {});
+    const command = commands.buildScan('test', {});
 
     expect(command).toEqual({
       TableName: 'test',
@@ -177,7 +171,7 @@ describe('buildScan', () => {
 
 describe('put', () => {
   it('creates command without options', () => {
-    const command = builder.buildPut('test', { pk: '12345', name: 'Joe' });
+    const command = commands.buildPut('test', { pk: '12345', name: 'Joe' });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -189,7 +183,7 @@ describe('put', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildPut(
+    const command = commands.buildPut(
       'test',
       { pk: '12345', name: 'Joe' },
       { ReturnConsumedCapacity: 'TOTAL' }
@@ -206,7 +200,7 @@ describe('put', () => {
   });
 
   it('creates command with condition expression', () => {
-    const command = builder.buildPut(
+    const command = commands.buildPut(
       'test',
       { pk: '12345', name: 'Joe' },
       { condition: { pk: attribute_not_exists(), age: 30 } }
@@ -232,7 +226,7 @@ describe('put', () => {
 
 describe('update', () => {
   it('creates command without options', () => {
-    const command = builder.buildUpdate(
+    const command = commands.buildUpdate(
       'test',
       { pk: '12345' },
       { name: 'Joe' }
@@ -254,7 +248,7 @@ describe('update', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildUpdate(
+    const command = commands.buildUpdate(
       'test',
       { pk: '12345' },
       { name: 'Joe' },
@@ -278,7 +272,7 @@ describe('update', () => {
   });
 
   it('creates command with condition expression', () => {
-    const command = builder.buildUpdate(
+    const command = commands.buildUpdate(
       'test',
       { pk: '12345' },
       { name: 'Joe' },
@@ -307,7 +301,7 @@ describe('update', () => {
 
 describe('delete', () => {
   it('creates command without options', () => {
-    const command = builder.buildDelete('test', { pk: '12345' });
+    const command = commands.buildDelete('test', { pk: '12345' });
 
     expect(command).toEqual({
       TableName: 'test',
@@ -318,7 +312,7 @@ describe('delete', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildDelete(
+    const command = commands.buildDelete(
       'test',
       { pk: '12345' },
       { ReturnConsumedCapacity: 'TOTAL' }
@@ -334,7 +328,7 @@ describe('delete', () => {
   });
 
   it('creates command with condition expression', () => {
-    const command = builder.buildDelete(
+    const command = commands.buildDelete(
       'test',
       { pk: '12345' },
       { condition: { pk: attribute_exists(), age: 30 } }
@@ -359,7 +353,7 @@ describe('delete', () => {
 
 describe('transactGet', () => {
   it('creates command without options', () => {
-    const command = builder.buildTransactGet([
+    const command = commands.buildTransactGet([
       transactItem.get('test', { pk: '12345' }),
     ]);
 
@@ -376,7 +370,7 @@ describe('transactGet', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildTransactGet(
+    const command = commands.buildTransactGet(
       [transactItem.get('test', { pk: '12345' })],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -397,7 +391,7 @@ describe('transactGet', () => {
 
 describe('transactWrite', () => {
   it('creates command without options', () => {
-    const command = builder.buildTransactWrite([
+    const command = commands.buildTransactWrite([
       transactItem.put('test', { name: 'Joe' }),
     ]);
 
@@ -414,7 +408,7 @@ describe('transactWrite', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildTransactWrite(
+    const command = commands.buildTransactWrite(
       [transactItem.put('test', { name: 'Joe' })],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -435,7 +429,7 @@ describe('transactWrite', () => {
 
 describe('batchGet', () => {
   it('creates command without options', () => {
-    const command = builder.buildBatchGet([
+    const command = commands.buildBatchGet([
       batchItem.get('test', { pk: '12345' }),
     ]);
 
@@ -449,7 +443,7 @@ describe('batchGet', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildBatchGet(
+    const command = commands.buildBatchGet(
       [batchItem.get('test', { pk: '12345' })],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -465,7 +459,7 @@ describe('batchGet', () => {
   });
 
   it('creates command with multiple tables', () => {
-    const command = builder.buildBatchGet(
+    const command = commands.buildBatchGet(
       [
         batchItem.get('test', { pk: '12345' }),
         batchItem.get('other-table', { pk: '98765' }),
@@ -487,7 +481,7 @@ describe('batchGet', () => {
   });
 
   it('creates command with multiple keys', () => {
-    const command = builder.buildBatchGet(
+    const command = commands.buildBatchGet(
       [batchItem.get('test', [{ pk: '12345' }, { pk: '98765' }])],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -503,7 +497,7 @@ describe('batchGet', () => {
   });
 
   it('merges commands for the same table', () => {
-    const command = builder.buildBatchGet(
+    const command = commands.buildBatchGet(
       [
         batchItem.get('test', { pk: '12345' }),
         batchItem.get('other-table', { pk: '98765' }),
@@ -528,7 +522,7 @@ describe('batchGet', () => {
 
 describe('batchWrite', () => {
   it('creates command without options', () => {
-    const command = builder.buildBatchWrite([
+    const command = commands.buildBatchWrite([
       batchItem.put('test', { pk: '12345', name: 'Joe' }),
     ]);
 
@@ -546,7 +540,7 @@ describe('batchWrite', () => {
   });
 
   it('creates command with options', () => {
-    const command = builder.buildBatchWrite(
+    const command = commands.buildBatchWrite(
       [batchItem.delete('test', { pk: '12345' })],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -566,7 +560,7 @@ describe('batchWrite', () => {
   });
 
   it('creates command with multiple tables', () => {
-    const command = builder.buildBatchWrite(
+    const command = commands.buildBatchWrite(
       [
         batchItem.put('test', { pk: '12345', name: 'Joe' }),
         batchItem.delete('other-table', { pk: '98765' }),
@@ -596,7 +590,7 @@ describe('batchWrite', () => {
   });
 
   it('creates command with multiple keys', () => {
-    const command = builder.buildBatchWrite(
+    const command = commands.buildBatchWrite(
       [batchItem.delete('test', [{ pk: '12345' }, { pk: '98765' }])],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -621,7 +615,7 @@ describe('batchWrite', () => {
   });
 
   it('merges commands for the same table', () => {
-    const command = builder.buildBatchWrite(
+    const command = commands.buildBatchWrite(
       [
         batchItem.delete('test', { pk: '12345' }),
         batchItem.delete('other-table', { pk: '98765' }),

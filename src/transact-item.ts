@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import CommandBuilder from './command';
-
-const builder = new CommandBuilder();
+import * as commands from './command';
 
 export interface FacadePut extends DocumentClient.Put {
   condition?: any;
@@ -46,7 +44,7 @@ export const transactItem = {
     condition: any,
     options?: Partial<DocumentClient.ConditionCheck>
   ) {
-    const command = builder.buildConditionCheck(
+    const command = commands.buildConditionCheck(
       tableName,
       key,
       condition,
@@ -63,7 +61,7 @@ export const transactItem = {
     item: DocumentClient.PutItemInputAttributeMap,
     options?: Partial<FacadePut>
   ) {
-    const command = builder.buildPut(tableName, item, options);
+    const command = commands.buildPut(tableName, item, options);
 
     return {
       Put: command as DocumentClient.Put,
@@ -76,7 +74,12 @@ export const transactItem = {
     updatedValues: any,
     options?: Partial<FacadeUpdate>
   ) {
-    const command = builder.buildUpdate(tableName, key, updatedValues, options);
+    const command = commands.buildUpdate(
+      tableName,
+      key,
+      updatedValues,
+      options
+    );
 
     return {
       Update: command as DocumentClient.Update,
@@ -88,7 +91,7 @@ export const transactItem = {
     key: DocumentClient.Key,
     options?: Partial<FacadeDelete>
   ) {
-    const command = builder.buildDelete(tableName, key, options);
+    const command = commands.buildDelete(tableName, key, options);
 
     return {
       Delete: command as DocumentClient.Delete,

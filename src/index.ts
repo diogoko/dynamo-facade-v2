@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-import CommandBuilder, {
-  FacadePutItemInput,
-  FacadeQueryInput,
-  FacadeUpdateItemInput,
-} from './command';
+import * as commands from './command';
 
 const defaults: DocumentClient.DocumentClientOptions &
   ServiceConfigurationOptions &
@@ -19,14 +15,12 @@ function client() {
   return _client;
 }
 
-const builder = new CommandBuilder();
-
 export function batchGet(
   requestItems: DocumentClient.BatchGetRequestMap[],
   options?: Partial<DocumentClient.BatchGetItemInput>
 ) {
   return client()
-    .batchGet(builder.buildBatchGet(requestItems, options))
+    .batchGet(commands.buildBatchGet(requestItems, options))
     .promise();
 }
 
@@ -35,7 +29,7 @@ export function batchWrite(
   options?: Partial<DocumentClient.BatchWriteItemInput>
 ) {
   return client()
-    .batchWrite(builder.buildBatchWrite(requestItems, options))
+    .batchWrite(commands.buildBatchWrite(requestItems, options))
     .promise();
 }
 
@@ -44,7 +38,7 @@ export function get(
   key: DocumentClient.Key,
   options?: Partial<DocumentClient.GetItemInput>
 ) {
-  return client().get(builder.buildGet(tableName, key, options)).promise();
+  return client().get(commands.buildGet(tableName, key, options)).promise();
 }
 
 export function scan(
@@ -52,45 +46,47 @@ export function scan(
   filter: any,
   options?: DocumentClient.ScanInput
 ) {
-  return client().scan(builder.buildScan(tableName, filter, options)).promise();
+  return client()
+    .scan(commands.buildScan(tableName, filter, options))
+    .promise();
 }
 
 export function query(
   tableName: string,
   keyCondition: any,
-  options?: Partial<FacadeQueryInput>
+  options?: Partial<commands.FacadeQueryInput>
 ) {
   return client()
-    .query(builder.buildQuery(tableName, keyCondition, options))
+    .query(commands.buildQuery(tableName, keyCondition, options))
     .promise();
 }
 
 export function put(
   tableName: string,
   item: DocumentClient.PutItemInputAttributeMap,
-  options?: Partial<FacadePutItemInput>
+  options?: Partial<commands.FacadePutItemInput>
 ) {
-  return client().put(builder.buildPut(tableName, item, options)).promise();
+  return client().put(commands.buildPut(tableName, item, options)).promise();
 }
 
 export function update(
   tableName: string,
   key: DocumentClient.Key,
   updatedValues: any,
-  options?: Partial<FacadeUpdateItemInput>
+  options?: Partial<commands.FacadeUpdateItemInput>
 ) {
   return client()
-    .update(builder.buildUpdate(tableName, key, updatedValues, options))
+    .update(commands.buildUpdate(tableName, key, updatedValues, options))
     .promise();
 }
 
 export function deleteItem(
   tableName: string,
   key: DocumentClient.Key,
-  options?: Partial<FacadeUpdateItemInput>
+  options?: Partial<commands.FacadeUpdateItemInput>
 ) {
   return client()
-    .delete(builder.buildDelete(tableName, key, options))
+    .delete(commands.buildDelete(tableName, key, options))
     .promise();
 }
 
@@ -98,7 +94,9 @@ export function transactGet(
   transactItems: DocumentClient.TransactGetItemList,
   options?: Partial<DocumentClient.TransactGetItemsInput>
 ) {
-  return client().transactGet(builder.buildTransactGet(transactItems, options));
+  return client().transactGet(
+    commands.buildTransactGet(transactItems, options)
+  );
 }
 
 export function transactWrite(
@@ -106,7 +104,7 @@ export function transactWrite(
   options?: Partial<DocumentClient.TransactWriteItemsInput>
 ) {
   return client()
-    .transactWrite(builder.buildTransactWrite(transactItems, options))
+    .transactWrite(commands.buildTransactWrite(transactItems, options))
     .promise();
 }
 
