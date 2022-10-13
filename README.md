@@ -56,6 +56,59 @@ await df.transactWrite([
 ])
 ```
 
+### Expressions
+
+Every command option that is an expression (`KeyConditionExpression`, `FilterExpression` - and soon `ProjectionExpression` too) can be described by an object whose keys are the table attributes, and whose values indicate the comparison to be made. If none of the operator helpers is used, the equals (`=`) operator is assumed.
+
+```js
+df.scan('movies', { actor: 'Tom Hanks' })
+// FilterExpression: '#actor = :actor'
+// ExpressionAttributeValues: { ':actor': 'Tom Hanks' }
+```
+
+There are several operator helpers that can be imported as functions from this module. To use them, call the helper passing the compared value as its parameter.
+
+```js
+import { gt } from 'dynamo-facade-v2';
+df.scan('movies', { year: gt(2000) })
+// FilterExpression: '#year > :year'
+// ExpressionAttributeValues: { ':year': 2000 }
+```
+
+Notice that the `ExpressionAttributeValues` and `ExpressionAttributeNames` options are built automatically for you.
+
+### Extra options
+
+All commands accept an optional parameters object as their last argument. This way, you can use options from the original `DocumentClient` methods.
+
+```js
+df.scan(
+  'movies',
+  { year: gt(2000) },
+  { Limit: 30 }
+)
+```
+
+If you specify parameter that are automatically managed by the library functions, you override what was built automatically.
+
+```js
+df.scan(
+  'movies',
+  { year: gt(2000) },
+  { FilterExpression: 'and actor = :actor' } // oops!
+)
+// FilterExpression: 'and actor = :actor'    // ouch!
+```
+
+### Responses
+
+All functions that call original `DocumentClient` methods return the promise created by the `promise()` method on the response object.
+
+```js
+const item = await df.get('movies', { actor, movie });          // ok
+const item = await df.get('movies', { actor, movie }).promise() // wrong!
+```
+
 ## Development
 
 ### Build
