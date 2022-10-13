@@ -134,3 +134,5 @@ export {
 export { transactItem } from './transact-item';
 
 export { batchItem } from './batch-item';
+
+export * as commands from './commands';
