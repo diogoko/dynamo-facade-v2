@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { buildExpression, buildUpdateExpression } from './expression';
 import { isObjectNotEmpty, optionalField } from './utils';
@@ -7,28 +6,28 @@ export interface FacadeQueryInput extends DocumentClient.QueryInput {
   /**
    * An object describing the comparisons to generate `FilterExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  filter?: any;
+  filter?: DocumentClient.AttributeMap;
 }
 
 export interface FacadePutItemInput extends DocumentClient.PutItemInput {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 export interface FacadeUpdateItemInput extends DocumentClient.UpdateItemInput {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 export interface FacadeDeleteItemInput extends DocumentClient.DeleteItemInput {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 /**
@@ -61,7 +60,7 @@ export function buildGet(
  */
 export function buildQuery(
   tableName: string,
-  keyCondition: any,
+  keyCondition: DocumentClient.AttributeMap,
   options?: Partial<FacadeQueryInput>
 ): DocumentClient.QueryInput {
   const keyConditionInfo = buildExpression(keyCondition);
@@ -95,7 +94,7 @@ export function buildQuery(
  */
 export function buildScan(
   tableName: string,
-  filter?: any,
+  filter?: DocumentClient.AttributeMap,
   options?: Partial<DocumentClient.ScanInput>
 ): DocumentClient.ScanInput {
   const filterInfo = buildExpression(filter);
@@ -163,7 +162,7 @@ export function buildPut(
 export function buildUpdate(
   tableName: string,
   key: DocumentClient.Key,
-  updatedValues: any,
+  updatedValues: DocumentClient.AttributeMap,
   options?: Partial<FacadeUpdateItemInput>
 ): DocumentClient.UpdateItemInput {
   const { condition, ...remainingOptions } = options ?? {};
@@ -236,7 +235,7 @@ export function buildDelete(
 export function buildConditionCheck(
   tableName: string,
   key: DocumentClient.Key,
-  condition: any,
+  condition: DocumentClient.AttributeMap,
   options?: Partial<DocumentClient.ConditionCheck>
 ) {
   const conditionInfo = buildExpression(condition);

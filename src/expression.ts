@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+
 export type ValuesMap = {
   [name: string]: any;
 };
@@ -152,7 +154,9 @@ function buildExpressionItem(k: string, value: any): ExpressionInfo {
   }
 }
 
-export function buildExpression(filter?: any): ExpressionInfo {
+export function buildExpression(
+  filter?: DocumentClient.AttributeMap
+): ExpressionInfo {
   if (!filter) {
     return {
       expression: '',
@@ -186,7 +190,9 @@ function buildUpdateExpressionItem(k: string, value: any): ExpressionInfo {
   };
 }
 
-export function buildUpdateExpression(updatedValues: any): ExpressionInfo {
+export function buildUpdateExpression(
+  updatedValues: DocumentClient.AttributeMap
+): ExpressionInfo {
   const items = Object.entries(updatedValues).map(([k, v]) =>
     buildUpdateExpressionItem(k, v)
   );

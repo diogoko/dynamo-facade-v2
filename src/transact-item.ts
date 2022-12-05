@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import * as commands from './commands';
 
@@ -6,21 +5,21 @@ export interface FacadePut extends DocumentClient.Put {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 export interface FacadeUpdate extends DocumentClient.Update {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 export interface FacadeDelete extends DocumentClient.Delete {
   /**
    * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
    */
-  condition?: any;
+  condition?: DocumentClient.AttributeMap;
 }
 
 /**
@@ -57,7 +56,7 @@ export function get(
 export function conditionCheck(
   tableName: string,
   key: DocumentClient.Key,
-  condition: any,
+  condition: DocumentClient.AttributeMap,
   options?: Partial<DocumentClient.ConditionCheck>
 ) {
   const command = commands.buildConditionCheck(
@@ -104,7 +103,7 @@ export function put(
 export function update(
   tableName: string,
   key: DocumentClient.Key,
-  updatedValues: any,
+  updatedValues: DocumentClient.AttributeMap,
   options?: Partial<FacadeUpdate>
 ) {
   const command = commands.buildUpdate(tableName, key, updatedValues, options);

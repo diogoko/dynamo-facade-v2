@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import * as commands from './commands';
@@ -112,7 +111,7 @@ export function get(
  */
 export function scan(
   tableName: string,
-  filter: any,
+  filter: DocumentClient.AttributeMap,
   options?: DocumentClient.ScanInput
 ) {
   return client()
@@ -135,7 +134,7 @@ export function scan(
  */
 export function query(
   tableName: string,
-  keyCondition: any,
+  keyCondition: DocumentClient.AttributeMap,
   options?: Partial<commands.FacadeQueryInput>
 ) {
   return client()
@@ -171,7 +170,7 @@ export function put(
 export function update(
   tableName: string,
   key: DocumentClient.Key,
-  updatedValues: any,
+  updatedValues: DocumentClient.AttributeMap,
   options?: Partial<commands.FacadeUpdateItemInput>
 ) {
   return client()
