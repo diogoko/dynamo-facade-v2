@@ -3,14 +3,23 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import * as commands from './commands';
 
 export interface FacadePut extends DocumentClient.Put {
+  /**
+   * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
+   */
   condition?: any;
 }
 
 export interface FacadeUpdate extends DocumentClient.Update {
+  /**
+   * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
+   */
   condition?: any;
 }
 
 export interface FacadeDelete extends DocumentClient.Delete {
+  /**
+   * An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
+   */
   condition?: any;
 }
 
@@ -24,6 +33,14 @@ export interface FacadeDelete extends DocumentClient.Delete {
  * ```
  */
 export const transactItem = {
+  /**
+   * Create a map to get one or more items using {@link transactGet}.
+   *
+   * @param tableName The name of the table that contains the item
+   * @param key A map of attribute names to values that specifies the primary key of the item to retrieve
+   * @param options The same parameters accepted by the original `Document.transactGet` items
+   * @returns A map in the format `{ Get: { TableName: ..., Key: ... } }`
+   */
   get(
     tableName: string,
     key: DocumentClient.Key,
@@ -38,6 +55,15 @@ export const transactItem = {
     };
   },
 
+  /**
+   * Create a map for the `ConditionCheck` operation to use {@link transactWrite}.
+   *
+   * @param tableName The name of the table that should contain the item
+   * @param key The primary key of the item to be checked
+   * @param condition An object describing the comparisons to generate `ConditionExpression`, `ExpressionAttributeNames`, and `ExpressionAttributeValues`
+   * @param options The same parameters accepted by the original `Document.transactWrite` condition check items
+   * @returns A map in the format `{ ConditionCheck: { ... } }`
+   */
   conditionCheck(
     tableName: string,
     key: DocumentClient.Key,
@@ -56,6 +82,14 @@ export const transactItem = {
     };
   },
 
+  /**
+   * Create a map for the `Put` operation to use {@link transactWrite}.
+   *
+   * @param tableName The name of the table to write the item in
+   * @param item An object with the item's attributes
+   * @param options The same parameters accepted by the original `Document.transactWrite` put items
+   * @returns A map in the format `{ Put: { ... } }`
+   */
   put(
     tableName: string,
     item: DocumentClient.PutItemInputAttributeMap,
@@ -68,6 +102,15 @@ export const transactItem = {
     };
   },
 
+  /**
+   * Create a map for the `Update` operation to use {@link transactWrite}.
+   *
+   * @param tableName The name of the table where the item resides
+   * @param key The primary key of the item to be updated
+   * @param updatedValues A map of attribute name/value pairs with the attributes that must be modified
+   * @param options The same parameters accepted by the original `Document.transactWrite` update items
+   * @returns A map in the format `{ Update: { ... } }`
+   */
   update(
     tableName: string,
     key: DocumentClient.Key,
@@ -86,6 +129,14 @@ export const transactItem = {
     };
   },
 
+  /**
+   * Create a map for the `Delete` operation to use {@link transactWrite}.
+   *
+   * @param tableName The name of the table where the item resides
+   * @param key The primary key of the item to be deleted
+   * @param options The same parameters accepted by the original `Document.transactWrite` delete items
+   * @returns A map in the format `{ Delete: { ... } }`
+   */
   delete(
     tableName: string,
     key: DocumentClient.Key,
