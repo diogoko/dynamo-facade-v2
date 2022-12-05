@@ -5,8 +5,8 @@ import {
   begins_with,
   gt,
 } from './helpers';
-import transactItem from './transact-item';
-import batchItem from './batch-item';
+import * as transactItem from './transact-item';
+import * as batchItem from './batch-item';
 
 describe('buildGet', () => {
   it('creates command without options', () => {
@@ -541,7 +541,7 @@ describe('batchWrite', () => {
 
   it('creates command with options', () => {
     const command = commands.buildBatchWrite(
-      [batchItem.delete('test', { pk: '12345' })],
+      [batchItem.deleteItem('test', { pk: '12345' })],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
 
@@ -563,7 +563,7 @@ describe('batchWrite', () => {
     const command = commands.buildBatchWrite(
       [
         batchItem.put('test', { pk: '12345', name: 'Joe' }),
-        batchItem.delete('other-table', { pk: '98765' }),
+        batchItem.deleteItem('other-table', { pk: '98765' }),
       ],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
@@ -591,7 +591,7 @@ describe('batchWrite', () => {
 
   it('creates command with multiple keys', () => {
     const command = commands.buildBatchWrite(
-      [batchItem.delete('test', [{ pk: '12345' }, { pk: '98765' }])],
+      [batchItem.deleteItem('test', [{ pk: '12345' }, { pk: '98765' }])],
       { ReturnConsumedCapacity: 'TOTAL' }
     );
 
@@ -617,13 +617,13 @@ describe('batchWrite', () => {
   it('merges commands for the same table', () => {
     const command = commands.buildBatchWrite(
       [
-        batchItem.delete('test', { pk: '12345' }),
-        batchItem.delete('other-table', { pk: '98765' }),
+        batchItem.deleteItem('test', { pk: '12345' }),
+        batchItem.deleteItem('other-table', { pk: '98765' }),
         batchItem.put('test', [
           { pk: '234567', name: 'Joe' },
           { pk: '098765', name: 'Mary' },
         ]),
-        batchItem.delete('test', { pk: '54637' }),
+        batchItem.deleteItem('test', { pk: '54637' }),
       ],
       { ReturnConsumedCapacity: 'TOTAL' }
     );

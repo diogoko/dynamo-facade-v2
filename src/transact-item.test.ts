@@ -1,5 +1,5 @@
 import { attribute_exists, attribute_not_exists } from './helpers';
-import { transactItem as tr } from './transact-item';
+import * as tr from './transact-item';
 
 describe('conditionCheck', () => {
   it('creates command without options', () => {
@@ -218,7 +218,7 @@ describe('update', () => {
 
 describe('delete', () => {
   it('creates command without options', () => {
-    const command = tr.delete('test', { pk: '12345' });
+    const command = tr.deleteItem('test', { pk: '12345' });
 
     expect(command).toEqual({
       Delete: {
@@ -231,7 +231,7 @@ describe('delete', () => {
   });
 
   it('creates command with options', () => {
-    const command = tr.delete(
+    const command = tr.deleteItem(
       'test',
       { pk: '12345' },
       { ReturnValuesOnConditionCheckFailure: 'ALL_OLD' }
@@ -249,7 +249,7 @@ describe('delete', () => {
   });
 
   it('creates command with condition expression', () => {
-    const command = tr.delete(
+    const command = tr.deleteItem(
       'test',
       { pk: '12345' },
       { condition: { pk: attribute_exists(), age: 30 } }

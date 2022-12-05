@@ -1,4 +1,4 @@
-import { batchItem as bi } from './batch-item';
+import * as bi from './batch-item';
 
 describe('get', () => {
   it('creates the command without options', () => {
@@ -90,7 +90,7 @@ describe('put', () => {
 
 describe('delete', () => {
   it('creates the command', () => {
-    const command = bi.delete('test', { pk: '12345' });
+    const command = bi.deleteItem('test', { pk: '12345' });
 
     expect(command).toEqual({
       test: [
@@ -104,7 +104,7 @@ describe('delete', () => {
   });
 
   it('creates the command with multiple keys', () => {
-    const command = bi.delete('test', [{ pk: '12345' }, { pk: '98765' }]);
+    const command = bi.deleteItem('test', [{ pk: '12345' }, { pk: '98765' }]);
 
     expect(command).toEqual({
       test: [
