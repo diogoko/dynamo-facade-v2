@@ -4,6 +4,8 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/dynamo-facade-v2)
 [![install size](https://packagephobia.com/badge?p=dynamo-facade-v2)](https://packagephobia.com/result?p=dynamo-facade-v2)
 [![downloads](https://img.shields.io/npm/dt/dynamo-facade-v2)](https://npm-stat.com/charts.html?package=dynamo-facade-v2)
+[![Known Vulnerabilities](https://snyk.io/test/npm/dynamo-facade-v2/badge.svg)](https://snyk.io/test/npm/dynamo-facade-v2)
+[![Coverage Status](https://coveralls.io/repos/github/diogoko/dynamo-facade-v2/badge.svg?branch=main)](https://coveralls.io/github/diogoko/dynamo-facade-v2?branch=main)
 
 dynamo-facade-v2 is a library that helps calling `DocumentClient` of `aws-sdk` - specially functions that have expression parameters (like `FilterExpression` and `UpdateExpression`).
 
