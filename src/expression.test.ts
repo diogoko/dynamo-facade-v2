@@ -153,7 +153,7 @@ describe('buildExpression', () => {
   });
 
   it('accepts between comparison', () => {
-    const expr = buildExpression({ name: 'Test', age: between([30, 45]) });
+    const expr = buildExpression({ name: 'Test', age: between(30, 45) });
 
     expect(expr).toEqual({
       expression: '#name = :name and #age between :age_0 and :age_1',

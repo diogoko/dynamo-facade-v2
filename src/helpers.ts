@@ -107,11 +107,12 @@ export function gt(value: any) {
  * df.scan('movies', { year: between(1995, 2000) })
  * ```
  *
- * @param value The pair of values to be compared to
+ * @param value1 The first value to be compared to
+ * @param value2 The second value to be compared to
  * @returns An object describing the comparison
  */
-export function between(value: [any, any]) {
-  return new BetweenComparison(value);
+export function between(value1: any, value2: any) {
+  return new BetweenComparison([value1, value2]);
 }
 
 /**
