@@ -1,17 +1,20 @@
-import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import * as commands from './commands';
+import DynamoFacade, { DocumentClientOptions } from './facade';
 
-const defaults: DocumentClient.DocumentClientOptions &
-  ServiceConfigurationOptions &
-  DynamoDB.ClientApiVersions = {};
+/**
+ * Default options for `DocumentClient` initialization when calling this module's functions.
+ *
+ * After the first call to one of these functions, new changes to the defaults are ignored.
+ */
+export const defaults: DocumentClientOptions = {};
 
-let _client: DocumentClient;
-function client() {
-  if (!_client) {
-    _client = new DocumentClient(defaults);
+let _facade: DynamoFacade;
+function facade() {
+  if (!_facade) {
+    _facade = new DynamoFacade(defaults);
   }
-  return _client;
+  return _facade;
 }
 
 /**
@@ -45,9 +48,7 @@ export function batchGet(
   requestItems: DocumentClient.BatchGetRequestMap[],
   options?: Partial<DocumentClient.BatchGetItemInput>
 ) {
-  return client()
-    .batchGet(commands.buildBatchGet(requestItems, options))
-    .promise();
+  return facade().batchGet(requestItems, options);
 }
 
 /**
@@ -75,9 +76,7 @@ export function batchWrite(
   requestItems: DocumentClient.BatchWriteItemRequestMap[],
   options?: Partial<DocumentClient.BatchWriteItemInput>
 ) {
-  return client()
-    .batchWrite(commands.buildBatchWrite(requestItems, options))
-    .promise();
+  return facade().batchWrite(requestItems, options);
 }
 
 /**
@@ -93,7 +92,7 @@ export function get(
   key: DocumentClient.Key,
   options?: Partial<DocumentClient.GetItemInput>
 ) {
-  return client().get(commands.buildGet(tableName, key, options)).promise();
+  return facade().get(tableName, key, options);
 }
 
 /**
@@ -114,9 +113,7 @@ export function scan(
   filter: DocumentClient.AttributeMap,
   options?: DocumentClient.ScanInput
 ) {
-  return client()
-    .scan(commands.buildScan(tableName, filter, options))
-    .promise();
+  return facade().scan(tableName, filter, options);
 }
 
 /**
@@ -137,9 +134,7 @@ export function query(
   keyCondition: DocumentClient.AttributeMap,
   options?: Partial<commands.FacadeQueryInput>
 ) {
-  return client()
-    .query(commands.buildQuery(tableName, keyCondition, options))
-    .promise();
+  return facade().query(tableName, keyCondition, options);
 }
 
 /**
@@ -155,7 +150,7 @@ export function put(
   item: DocumentClient.PutItemInputAttributeMap,
   options?: Partial<commands.FacadePutItemInput>
 ) {
-  return client().put(commands.buildPut(tableName, item, options)).promise();
+  return facade().put(tableName, item, options);
 }
 
 /**
@@ -173,9 +168,7 @@ export function update(
   updatedValues: DocumentClient.AttributeMap,
   options?: Partial<commands.FacadeUpdateItemInput>
 ) {
-  return client()
-    .update(commands.buildUpdate(tableName, key, updatedValues, options))
-    .promise();
+  return facade().update(tableName, key, updatedValues, options);
 }
 
 /**
@@ -191,9 +184,7 @@ export function deleteItem(
   key: DocumentClient.Key,
   options?: Partial<commands.FacadeUpdateItemInput>
 ) {
-  return client()
-    .delete(commands.buildDelete(tableName, key, options))
-    .promise();
+  return facade().deleteItem(tableName, key, options);
 }
 
 /**
@@ -218,9 +209,7 @@ export function transactGet(
   transactItems: DocumentClient.TransactGetItemList,
   options?: Partial<DocumentClient.TransactGetItemsInput>
 ) {
-  return client().transactGet(
-    commands.buildTransactGet(transactItems, options)
-  );
+  return facade().transactGet(transactItems, options);
 }
 
 /**
@@ -245,9 +234,7 @@ export function transactWrite(
   transactItems: DocumentClient.TransactWriteItemList,
   options?: Partial<DocumentClient.TransactWriteItemsInput>
 ) {
-  return client()
-    .transactWrite(commands.buildTransactWrite(transactItems, options))
-    .promise();
+  return facade().transactWrite(transactItems, options);
 }
 
 /**
@@ -261,7 +248,7 @@ export function set(
   list: number[] | string[] | DocumentClient.binaryType[],
   options?: Partial<DocumentClient.CreateSetOptions>
 ) {
-  return client().createSet(list, options);
+  return facade().set(list, options);
 }
 
 export {
@@ -285,3 +272,5 @@ export * as transactItem from './transact-item';
 export * as batchItem from './batch-item';
 
 export * as commands from './commands';
+
+export { default as DynamoFacade } from './facade';
