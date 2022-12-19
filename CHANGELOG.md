@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-12-19
+
+### Added
+- DocumentFacade class to allow multiple simultaneous connections
+- commands module to generate commands inputs without running them
+
+### Changed
+
+- (BREAKING) Signature of between helper to accept two arguments
+- Make batchItem and transactItem real namespaces
+
 ## [1.0.1] - 2022-10-05
 
 ### Fixed
