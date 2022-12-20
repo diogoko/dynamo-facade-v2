@@ -91,7 +91,7 @@ df.scan(
 )
 ```
 
-If you specify parameter that are automatically managed by the library functions, you override what was built automatically.
+If you specify parameters that are automatically managed by the library functions, you override what was built automatically.
 
 ```js
 df.scan(
